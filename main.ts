@@ -28,7 +28,7 @@ app.post('/webhook', async c => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "Authorization": "Bearer " + Deno.env.get("line_token"),
+        "Authorization": "Bearer " + Deno.env.get("LINE_TOKEN"),
       },
       "body": JSON.stringify(replyData),
     })) // リプライ
