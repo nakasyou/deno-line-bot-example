@@ -34,6 +34,7 @@ app.post('/webhook', async c => {
     })) // リプライ
   }
   await Promise.all(replys) // 全てのリプライ完了を待つ
+  return c.text("OK!")
 })
 
 // サーバーを起動
