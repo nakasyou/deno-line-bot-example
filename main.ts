@@ -12,7 +12,7 @@ const WebHookSchema = z.object({
     replyToken: z.string()
   }))
 })
-app.post('/webhook', zValidator('json', WebHookSchema, async c => {
+app.post('/webhook', zValidator('json', WebHookSchema), async c => {
   const data = c.req.valid('json') // WebHookデータ
 
   const replys: Promise<Response>[] = []
