@@ -6,7 +6,7 @@ const app = new Hono()
 app.post('/webhook', async c => {
   const data = await c.req.json() // WebHookデータ
   console.log(data)
-  const replys: Promise<Response>[] = []
+  const replys: Promise<string>[] = []
   for (const event of data.events) {
     // イベントでループ
     if (event.type !== 'message') return // メッセージでないイベントは無視
@@ -31,9 +31,9 @@ app.post('/webhook', async c => {
         "Authorization": "Bearer " + Deno.env.get("LINE_TOKEN"),
       },
       "body": JSON.stringify(replyData),
-    })) // リプライ
+    }).then(res => res.text())) // リプライ
   }
-  await Promise.all(replys) // 全てのリプライ完了を待つ
+  console.log(await Promise.all(replys)) // 全てのリプライ完了を待つ
   return c.text("OK!")
 })
 
