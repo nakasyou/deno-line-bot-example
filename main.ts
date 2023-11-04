@@ -4,7 +4,6 @@ import { Hono } from 'hono'
 const app = new Hono()
 
 import { z } from 'zod'
-import { zValidator } from '@hono/zod-validator'
 
 const WebHookSchema = z.object({
   events: z.array(z.object({
@@ -12,8 +11,13 @@ const WebHookSchema = z.object({
     replyToken: z.string()
   }))
 })
-app.post('/webhook', zValidator('json', WebHookSchema), async c => {
-  const data = c.req.valid('json') // WebHookデータ
+app.post('/webhook', async c => {
+  const data: z.infer<typeof WebHookSchema> = c.req.json() // WebHookデータ
+  try {
+    WebHookSchema.parse()
+  } catch (_e) {
+    return c.text('Invalid Request', 400)
+  }
 
   const replys: Promise<Response>[] = []
   for (const event of data.events) {
