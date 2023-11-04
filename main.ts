@@ -5,7 +5,7 @@ const app = new Hono()
 
 app.post('/webhook', async c => {
   const data = await c.req.json() // WebHookデータ
-
+  console.log(data)
   const replys: Promise<Response>[] = []
   for (const event of data.events) {
     // イベントでループ
