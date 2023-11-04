@@ -1,0 +1,11 @@
+{
+    "imports": {
+      "hono": "https://deno.land/x/hono@v3.9.2/mod.ts",
+      "@hono/zod-validator": "https://esm.sh/@hono/zod-validator@0.1.11",
+      "zod": "https://esm.sh/zod@3.22.4"
+    },
+    "tasks": {
+      "dev": "deno run --allow-net --watch main.ts",
+      "start": "deno run --allow-net main.ts"
+    }
+  }
