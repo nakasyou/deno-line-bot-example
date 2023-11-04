@@ -3,21 +3,8 @@ import { Hono } from 'hono'
 // アプリケーションの作成
 const app = new Hono()
 
-import { z } from 'zod'
-
-const WebHookSchema = z.object({
-  events: z.array(z.object({
-    type: z.string(),
-    replyToken: z.string()
-  }))
-})
 app.post('/webhook', async c => {
-  const data: z.infer<typeof WebHookSchema> = c.req.json() // WebHookデータ
-  try {
-    WebHookSchema.parse()
-  } catch (_e) {
-    return c.text('Invalid Request', 400)
-  }
+  const data = c.req.json() // WebHookデータ
 
   const replys: Promise<Response>[] = []
   for (const event of data.events) {
